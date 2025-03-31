@@ -2,8 +2,7 @@
 const getOrderSummaryBlocks = (
   sourceChannelId,
   sourceChannelName,
-  userId,
-  username,
+  startedByUserId,
   orders,
   sortedOrders
 ) => [
@@ -19,7 +18,7 @@ const getOrderSummaryBlocks = (
     type: 'section',
     text: {
       type: 'mrkdwn',
-      text: `*주문 채널:* <#${sourceChannelId}|${sourceChannelName}>\n*주문자:* <@${userId}> (${username})`,
+      text: `*주문 채널:* <#${sourceChannelId}|${sourceChannelName}>\n*주문자:* <@${startedByUserId}>`,
     },
   },
   {
