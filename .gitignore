@@ -26,3 +26,5 @@ yarn-error.log*
 *.swo
 .DS_Store
 Thumbs.db
+
+service-account-key.json
