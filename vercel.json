@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/api/menu-admin",
+      "dest": "/api/menu-admin.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/api/slack.js"
     }
