@@ -151,15 +151,32 @@
         let menuData = {{MENU_DATA}};
         let isAuthenticated = false;
 
-        function authenticate() {
+        async function authenticate() {
             const password = document.getElementById('password').value;
-            if (password === 'asnisum2025') {
-                isAuthenticated = true;
-                document.getElementById('authStatus').classList.remove('hidden');
-                document.getElementById('menuManager').classList.remove('hidden');
-                loadMenuData();
-            } else {
-                alert('비밀번호가 틀렸습니다.');
+            
+            try {
+                const response = await fetch('/api/menu-admin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        action: 'auth',
+                        password: password
+                    })
+                });
+
+                if (response.ok) {
+                    isAuthenticated = true;
+                    document.getElementById('authStatus').classList.remove('hidden');
+                    document.getElementById('menuManager').classList.remove('hidden');
+                    loadMenuData();
+                } else {
+                    const result = await response.json();
+                    alert(result.error || '인증에 실패했습니다.');
+                }
+            } catch (error) {
+                alert('인증 중 오류가 발생했습니다: ' + error.message);
             }
         }
 

@@ -33,11 +33,20 @@ async function handleGet(req, res) {
 async function handlePost(req, res) {
   const { action, menuData, password } = req.body;
 
-  if (password !== 'asnisum2025') {
+  // 환경변수에서 관리자 비밀번호 확인
+  const adminPassword = process.env.MENU_ADMIN_PASSWORD;
+  if (!adminPassword) {
+    return res.status(500).json({ error: '서버 설정 오류: 관리자 비밀번호가 설정되지 않았습니다.' });
+  }
+
+  if (password !== adminPassword) {
     return res.status(401).json({ error: '인증 실패' });
   }
 
-  if (action === 'save') {
+  if (action === 'auth') {
+    // 인증만 확인하고 성공 응답
+    return res.status(200).json({ success: true, message: '인증 성공' });
+  } else if (action === 'save') {
     try {
       await updateMenuConfig(menuData);
       res.status(200).json({ success: true, message: '메뉴가 저장되었습니다.' });
